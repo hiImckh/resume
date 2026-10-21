@@ -1,1 +1,897 @@
-I am a cat.
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>颱風消息 - 交通部中央氣象署 Central Weather Administration</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts & Font Awesome Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cwa: {
+              primary: '#0d5c9c',
+              dark: '#083c66',
+              light: '#eef6fc',
+              blueHover: '#1371bf',
+              alertRed: '#d92c2c',
+              border: '#dbe5ea',
+              bgLight: '#f4f7f9'
+            }
+          },
+          fontFamily: {
+            sans: ['"Noto Sans TC"', 'Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom scrollbars and fine aesthetic adjustments */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    .cwa-card-shadow {
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+    .active-tab {
+      background-color: #0d5c9c;
+      color: #ffffff !important;
+      font-weight: 600;
+    }
+    .pulsing-dot {
+      animation: pulse-ring 2s infinite;
+    }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.9; }
+      50% { transform: scale(1.15); opacity: 0.4; }
+      100% { transform: scale(0.95); opacity: 0.9; }
+    }
+  </style>
+</head>
+<body class="bg-[#f0f4f7] text-[#2c3e50] font-sans antialiased min-h-screen flex flex-col">
+
+  <!-- Top Utility Bar -->
+  <header class="bg-[#0b518c] text-white select-none sticky top-0 z-40 shadow-sm">
+    <div class="max-w-[1240px] mx-auto px-4 py-2 flex flex-wrap items-center justify-between border-b border-blue-800/40 text-xs">
+      <div class="flex items-center space-x-2">
+        <a href="#main-content" class="sr-only focus:not-sr-only bg-yellow-400 text-black px-2 py-1 rounded">跳至主要內容區</a>
+        <span class="opacity-80">::: 導覽列</span>
+        <span class="border-l border-blue-400/40 pl-2">民國 115 年 10 月 21 日</span>
+      </div>
+      <div class="flex items-center space-x-3 text-[11px] md:text-xs">
+        <button class="hover:text-cyan-200 transition">EN</button>
+        <span class="text-blue-300">|</span>
+        <button class="hover:text-cyan-200 transition">兒童版</button>
+        <span class="text-blue-300">|</span>
+        <button class="hover:text-cyan-200 transition">銀髮族</button>
+        <span class="text-blue-300">|</span>
+        <button class="hover:text-cyan-200 transition">常態問答</button>
+        <span class="text-blue-300">|</span>
+        <button class="hover:text-cyan-200 transition">網站導覽</button>
+        <!-- Font sizing tools -->
+        <div class="inline-flex rounded-sm border border-blue-300/40 overflow-hidden ml-1">
+          <button class="px-1.5 py-0.5 bg-blue-900/60 hover:bg-blue-800 text-[10px]" title="縮小字體">小</button>
+          <button class="px-1.5 py-0.5 bg-blue-700 font-bold text-[11px]" title="中字體">中</button>
+          <button class="px-1.5 py-0.5 bg-blue-900/60 hover:bg-blue-800 text-[12px]" title="放大字體">大</button>
+        </div>
+        <button class="p-1 hover:text-cyan-200 text-sm" title="語音朗讀"><i class="fa-solid fa-volume-high"></i></button>
+        <button class="p-1 hover:text-cyan-200 text-sm" title="站內搜尋"><i class="fa-solid fa-magnifying-glass"></i></button>
+      </div>
+    </div>
+
+    <!-- Main Branding & Menu -->
+    <div class="max-w-[1240px] mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between">
+      <div class="flex items-center space-x-3 cursor-pointer">
+        <!-- Taiwan CWA Logo Replica -->
+        <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center p-1 shadow-inner">
+          <svg viewBox="0 0 100 100" class="w-full h-full text-[#0d5c9c]">
+            <path fill="currentColor" d="M50 8C26.8 8 8 26.8 8 50s18.8 42 42 42 42-18.8 42-42S73.2 8 50 8zm-3 68.2C31.5 74.3 20 62.4 20 50c0-6.1 2.2-11.8 5.8-16.2 5.5 13.8 17.5 19.3 21.2 32.4zm3-25.2c-5.8 0-10.5-4.7-10.5-10.5S44.2 30 50 30s10.5 4.7 10.5 10.5S55.8 51 50 51zm27 7.2c-6.8-2.6-13.9-9.1-16.4-19.6C71.3 43 77 50.8 77 58.2z"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-xl md:text-2xl font-bold tracking-wider leading-none text-white drop-shadow-sm">交通部中央氣象署</h1>
+          <p class="text-[10px] md:text-xs text-blue-200 tracking-wider">Central Weather Administration</p>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="hidden lg:flex items-center space-x-1 text-sm font-medium">
+        <button class="px-3.5 py-1.5 rounded hover:bg-blue-700/60 text-white transition">首頁</button>
+        <button class="px-3.5 py-1.5 rounded hover:bg-blue-700/60 text-white transition">警特報</button>
+        <button class="px-3.5 py-1.5 rounded bg-blue-700/80 font-semibold text-white shadow-inner">天氣</button>
+        <button class="px-3.5 py-1.5 rounded hover:bg-blue-700/60 text-white transition">生活</button>
+        <button class="px-3.5 py-1.5 rounded hover:bg-blue-700/60 text-white transition">地震</button>
+        <button class="px-3.5 py-1.5 rounded hover:bg-blue-700/60 text-white transition">海象</button>
+        <button class="px-3.5 py-1.5 rounded hover:bg-blue-700/60 text-white transition">氣候</button>
+        <button class="px-3.5 py-1.5 rounded hover:bg-blue-700/60 text-white transition">資料</button>
+        <button class="px-3.5 py-1.5 rounded hover:bg-blue-700/60 text-white transition">科普與天文</button>
+        <button class="px-3.5 py-1.5 rounded hover:bg-blue-700/60 text-white transition">便民服務</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Alert Ribbon -->
+  <aside class="bg-[#fcedec] border-b border-[#f5c6cb] text-xs py-1.5 text-neutral-800" aria-label="即時警特報資訊">
+    <div class="max-w-[1240px] mx-auto px-4 flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center space-x-6 overflow-x-auto whitespace-nowrap py-0.5">
+        <span class="font-bold text-[#b91c1c] flex items-center gap-1.5">
+          <i class="fa-solid fa-triangle-exclamation"></i> 警特報發布中：
+        </span>
+        <a href="#alert" class="inline-flex items-center text-[#c5221f] hover:underline font-medium">
+          <span class="w-2.5 h-2.5 bg-red-600 rounded-full inline-block mr-1.5 pulsing-dot"></span>
+          豪雨特報
+        </a>
+        <a href="#alert" class="inline-flex items-center text-[#c5221f] hover:underline font-medium">
+          <span class="w-2.5 h-2.5 bg-red-600 rounded-full inline-block mr-1.5 pulsing-dot"></span>
+          長浪即時訊息
+        </a>
+        <a href="#alert" class="inline-flex items-center text-[#c5221f] hover:underline font-medium">
+          <span class="w-2.5 h-2.5 bg-red-600 rounded-full inline-block mr-1.5 pulsing-dot"></span>
+          陸上強風特報
+        </a>
+      </div>
+      <div class="text-[11px] text-gray-500 hidden sm:block">
+        最後更新：115/10/21 14:00 (每小時更新)
+      </div>
+    </div>
+  </aside>
+
+  <main id="main-content" class="flex-grow max-w-[1240px] w-full mx-auto px-3 sm:px-4 py-4 space-y-4">
+    <!-- Breadcrumb & Accessible Anchor -->
+    <div class="flex items-center justify-between text-xs text-gray-600 border-b border-gray-200 pb-2">
+      <div class="flex items-center space-x-1.5">
+        <span class="text-blue-700 font-bold">:::</span>
+        <i class="fa-solid fa-house text-gray-400"></i>
+        <span>現在位置：</span>
+        <a href="#" class="hover:text-blue-700">首頁</a>
+        <span>&gt;</span>
+        <a href="#" class="hover:text-blue-700">警特報</a>
+        <span>&gt;</span>
+        <span class="text-gray-900 font-medium">颱風消息</span>
+      </div>
+      <div class="text-gray-400 hidden md:block">
+        網頁代碼：CWA-TY-202610
+      </div>
+    </div>
+
+    <!-- Title Bar with Badge Icon -->
+    <div class="flex items-center justify-between pb-1 pt-2">
+      <div class="flex items-center space-x-2.5">
+        <span class="w-8 h-8 rounded-full bg-cwa-primary text-white flex items-center justify-center text-sm shadow-sm">
+          <i class="fa-solid fa-hurricane"></i>
+        </span>
+        <h2 class="text-2xl font-bold text-gray-800 tracking-wide">颱風消息</h2>
+      </div>
+      <div class="flex items-center gap-2">
+        <button onclick="window.print()" class="text-xs bg-white border border-gray-300 text-gray-700 px-3 py-1.5 rounded hover:bg-gray-50 shadow-sm flex items-center gap-1">
+          <i class="fa-solid fa-print"></i> 列印本頁
+        </button>
+        <button id="btnShare" onclick="sharePage()" class="text-xs bg-white border border-gray-300 text-gray-700 px-3 py-1.5 rounded hover:bg-gray-50 shadow-sm flex items-center gap-1">
+          <i class="fa-solid fa-share-nodes"></i> 分享
+        </button>
+      </div>
+    </div>
+
+    <!-- Tab Controls -->
+    <div class="border-b border-gray-300">
+      <nav class="flex flex-wrap gap-1" role="tablist">
+        <button class="tab-btn px-6 py-2.5 text-sm rounded-t font-medium transition active-tab border-t-2 border-transparent" data-tab="track">
+          路徑潛勢
+        </button>
+        <button class="tab-btn px-6 py-2.5 text-sm rounded-t font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 transition" data-tab="forecast">
+          路徑發布預報
+        </button>
+        <button class="tab-btn px-6 py-2.5 text-sm rounded-t font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 transition" data-tab="prob">
+          暴風圈侵襲機率
+        </button>
+      </nav>
+    </div>
+
+    <!-- Main Typhoon Interactive Dashboard Box -->
+    <div class="bg-white rounded-b rounded-tr border border-gray-200 p-4 sm:p-6 shadow-sm">
+      
+      <!-- Media controls toolbar -->
+      <div class="flex flex-wrap items-center justify-between pb-4 border-b border-gray-100 gap-3">
+        <div class="flex items-center space-x-1.5">
+          <button id="playBtn" class="flex items-center gap-1.5 bg-cwa-primary hover:bg-cwa-blueHover text-white px-3 py-1 rounded text-xs transition font-medium" onclick="togglePlay()">
+            <i class="fa-solid fa-play" id="playIcon"></i> <span>播放</span>
+          </button>
+          <button class="p-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded text-xs transition" title="上一時間點" onclick="changeStep(-1)">
+            <i class="fa-solid fa-backward-step"></i>
+          </button>
+          <button class="p-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded text-xs transition" title="下一時間點" onclick="changeStep(1)">
+            <i class="fa-solid fa-forward-step"></i>
+          </button>
+          <span class="text-xs text-gray-500 ml-2">時間進度：<strong id="timeDisplay" class="text-blue-900 font-semibold">2026/10/21 14:00 LST</strong></span>
+        </div>
+
+        <div class="flex items-center space-x-2">
+          <label class="text-xs text-gray-600 flex items-center space-x-1 cursor-pointer">
+            <input type="checkbox" id="autoLoopCheck" checked class="rounded text-cwa-primary focus:ring-cwa-primary">
+            <span>自動循環</span>
+          </label>
+          <span class="text-gray-300">|</span>
+          <button onclick="toggleFullscreen()" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-2 py-1 rounded flex items-center gap-1">
+            <i class="fa-solid fa-expand"></i> 全螢幕圖資
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Layout: 2 Columns (Report + Canvas/Map Display) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-4">
+        
+        <!-- Left Column: Detailed Meteorological Status and Links -->
+        <div class="lg:col-span-5 flex flex-col justify-between space-y-5">
+          <div class="space-y-3.5 text-[13px] leading-relaxed text-gray-700">
+            <div class="bg-blue-50/60 p-3 rounded border-l-4 border-cwa-primary">
+              <span class="text-sm font-bold text-blue-950">編號 (民國115年10月21日14時) 太平洋地區有 1 個颱風：</span>
+            </div>
+
+            <div class="border border-gray-200 rounded p-4 bg-slate-50/50 space-y-2">
+              <div class="flex items-center justify-between border-b border-gray-200 pb-2">
+                <span class="inline-block bg-red-600 text-white font-bold text-xs px-2.5 py-0.5 rounded">強烈颱風 蘭恩</span>
+                <span class="text-xs text-gray-500">國際命名: <b class="text-gray-800">LAN</b> (編號第 21 號)</span>
+              </div>
+              <ul class="space-y-1.5 text-xs text-gray-700 pt-1">
+                <li>• <strong>中心位置：</strong>北緯 34.7 度，東經 138.9 度（約在東京南南西方海面上）</li>
+                <li>• <strong>行徑速度：</strong>以每小時 19 公里速度，向東北進行</li>
+                <li>• <strong>中心氣壓：</strong><span class="text-red-600 font-bold">930 百帕</span></li>
+                <li>• <strong>最大風速：</strong>近中心最大風速每秒 <span class="text-red-600 font-bold">53 公尺</span>（約每小時 190 公里），相當於 16 級風</li>
+                <li>• <strong>瞬間最大陣風：</strong>每秒 65 公尺（約每小時 234 公里），相當於 17 級風以上</li>
+                <li>• <strong>暴風半徑：</strong>
+                  <div class="pl-3 text-gray-600 text-[11px] space-y-0.5 mt-1">
+                    <div>- 七級風平均暴風半徑 280 公里 (西北 280 公里、東北 320 公里、西南 250 公里、東南 290 公里)</div>
+                    <div>- 十級風平均暴風半徑 120 公里 (西北 120 公里、東北 130 公里、西南 110 公里、東南 130 公里)</div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Notes Section -->
+            <div class="space-y-1.5 border-t border-gray-200 pt-3">
+              <h4 class="text-xs font-bold text-gray-800 flex items-center gap-1.5">
+                <i class="fa-regular fa-clock text-blue-600"></i> 颱風路徑的發布時間
+              </h4>
+              <p class="text-[11px] text-gray-500 leading-normal pl-4">
+                颱風最新路徑配合國際氣象觀測時間（包括 02、08、14、20時），並因搜集資料收集及分析研判等程序，約需 1.5 至 2 小時的作業時間陸續發布。
+              </p>
+            </div>
+
+            <!-- Relevant External/Resource Links -->
+            <div class="space-y-1 border-t border-gray-200 pt-3">
+              <h4 class="text-xs font-bold text-gray-800 mb-1.5">相關連結</h4>
+              <ul class="grid grid-cols-2 gap-1 text-xs text-blue-700">
+                <li><a href="#" class="hover:underline flex items-center gap-1"><i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i> 颱風百問</a></li>
+                <li><a href="#" class="hover:underline flex items-center gap-1"><i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i> 颱風路徑手冊說明(PDF)</a></li>
+                <li><a href="#" class="hover:underline flex items-center gap-1"><i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i> 颱風消息 GIS 版</a></li>
+                <li><a href="#" class="hover:underline flex items-center gap-1"><i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i> 人事行政總處停班停課資訊</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Interactive Typhoon Map Preview Canvas -->
+        <div class="lg:col-span-7 flex flex-col space-y-3">
+          <!-- Main Map Visual Box -->
+          <div id="mapContainer" class="relative bg-[#a5c9eb] rounded-lg overflow-hidden border border-blue-200 h-[380px] sm:h-[430px] flex items-center justify-center select-none shadow-inner group">
+            
+            <!-- SVG Map Illustration with Simulated Typhoon Path and Wind Probability Rings -->
+            <svg id="typhoonSvg" viewBox="0 0 600 500" class="w-full h-full object-cover">
+              <defs>
+                <radialGradient id="oceanGrad" cx="50%" cy="50%" r="70%">
+                  <stop offset="0%" stop-color="#b8daf8" />
+                  <stop offset="100%" stop-color="#91bfe8" />
+                </radialGradient>
+                <radialGradient id="typhoonGradient" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#ef4444" stop-opacity="0.8"/>
+                  <stop offset="60%" stop-color="#f97316" stop-opacity="0.4"/>
+                  <stop offset="100%" stop-color="#fbbf24" stop-opacity="0.1"/>
+                </radialGradient>
+                <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.25"/>
+                </filter>
+              </defs>
+
+              <!-- Ocean Base -->
+              <rect width="600" height="500" fill="url(#oceanGrad)" />
+
+              <!-- Latitude / Longitude Grid lines -->
+              <g stroke="#ffffff" stroke-width="0.5" stroke-dasharray="3,3" opacity="0.6">
+                <line x1="50" y1="0" x2="50" y2="500" />
+                <line x1="170" y1="0" x2="170" y2="500" />
+                <line x1="290" y1="0" x2="290" y2="500" />
+                <line x1="410" y1="0" x2="410" y2="500" />
+                <line x1="530" y1="0" x2="530" y2="500" />
+                <line x1="0" y1="100" x2="600" y2="100" />
+                <line x1="0" y1="200" x2="600" y2="200" />
+                <line x1="0" y1="300" x2="600" y2="300" />
+                <line x1="0" y1="400" x2="600" y2="400" />
+              </g>
+
+              <!-- Simplified Far-East Coastline Geometry (Japan, Taiwan, East China) -->
+              <!-- Taiwan -->
+              <path d="M125 350 C128 340, 138 345, 142 360 C144 380, 136 405, 126 400 C118 395, 120 365, 125 350 Z" fill="#cfdfb8" stroke="#799863" stroke-width="1.5" />
+              <text x="110" y="380" font-size="11" font-weight="bold" fill="#335522">台灣</text>
+              
+              <!-- Japan Honshu & Kyushu -->
+              <path d="M 230 240 Q 250 200, 310 180 T 400 130 T 460 80 Q 480 90, 440 130 T 360 190 T 290 230 T 230 240 Z" fill="#cfdfb8" stroke="#799863" stroke-width="1.5"/>
+              <path d="M 210 260 Q 230 250, 240 270 T 215 285 Z" fill="#cfdfb8" stroke="#799863" stroke-width="1"/>
+              <path d="M 430 70 Q 480 40, 520 60 T 470 100 Z" fill="#cfdfb8" stroke="#799863" stroke-width="1"/>
+              <text x="350" y="160" font-size="12" font-weight="bold" fill="#335522">日本</text>
+
+              <!-- Typhoon 70% Probability Cone Envelope (Red/Amber boundary) -->
+              <path d="M 320 220 C 310 160, 290 120, 270 90 C 330 70, 370 100, 380 150 C 370 190, 350 215, 320 220 Z" 
+                    fill="#e0b86a" fill-opacity="0.35" stroke="#c04020" stroke-width="1.8" />
+              <text x="300" y="125" font-size="11" font-weight="bold" fill="#8c2e0b">70% 機率圈</text>
+
+              <!-- Historical & Forecast Projected Path Curve -->
+              <path id="pathLine" d="M 430 260 Q 380 250, 325 215 T 270 140 T 240 90" 
+                    fill="none" stroke="#2563eb" stroke-width="2.5" stroke-dasharray="4,3" />
+
+              <!-- Past Track Nodes (White dots) -->
+              <circle cx="430" cy="260" r="4.5" fill="#ffffff" stroke="#1e3a8a" stroke-width="1.5"/>
+              <text x="440" y="265" font-size="10" fill="#1e3a8a">19日14時</text>
+
+              <circle cx="390" cy="250" r="4.5" fill="#ffffff" stroke="#1e3a8a" stroke-width="1.5"/>
+              <text x="400" y="255" font-size="10" fill="#1e3a8a">20日02時</text>
+
+              <circle cx="360" cy="235" r="4.5" fill="#ffffff" stroke="#1e3a8a" stroke-width="1.5"/>
+              <text x="370" y="240" font-size="10" fill="#1e3a8a">20日14時</text>
+
+              <!-- Current Typhoon Eye & Storm Swirl -->
+              <g transform="translate(325, 215)" filter="url(#shadow)">
+                <circle cx="0" cy="0" r="45" fill="url(#typhoonGradient)"/>
+                <circle cx="0" cy="0" r="22" fill="#ef4444" fill-opacity="0.4" stroke="#dc2626" stroke-width="1.2"/>
+                <circle cx="0" cy="0" r="6" fill="#b91c1c" />
+                <path d="M -8 -8 C -1 0, 1 0, 8 8 M 8 -8 C 0 -1, 0 1, -8 8" stroke="#ffffff" stroke-width="1.8" />
+                <text x="10" y="5" font-size="11" font-weight="bold" fill="#991b1b">蘭恩 (21日14時)</text>
+              </g>
+
+              <!-- Future Forecast Predictions with Labels -->
+              <!-- Point 1 -->
+              <g transform="translate(305, 175)">
+                <circle cx="0" cy="0" r="5" fill="#f59e0b" stroke="#78350f" stroke-width="1.2"/>
+                <rect x="8" y="-10" width="55" height="18" rx="3" fill="#ffffff" fill-opacity="0.9" stroke="#94a3b8" stroke-width="0.7"/>
+                <text x="12" y="3" font-size="9.5" font-weight="600" fill="#0f172a">22日02時</text>
+              </g>
+
+              <!-- Point 2 -->
+              <g transform="translate(285, 135)">
+                <circle cx="0" cy="0" r="5" fill="#f59e0b" stroke="#78350f" stroke-width="1.2"/>
+                <rect x="8" y="-10" width="55" height="18" rx="3" fill="#ffffff" fill-opacity="0.9" stroke="#94a3b8" stroke-width="0.7"/>
+                <text x="12" y="3" font-size="9.5" font-weight="600" fill="#0f172a">23日02時</text>
+              </g>
+
+              <!-- Point 3 -->
+              <g transform="translate(255, 95)">
+                <circle cx="0" cy="0" r="5" fill="#f59e0b" stroke="#78350f" stroke-width="1.2"/>
+                <rect x="-65" y="-10" width="55" height="18" rx="3" fill="#ffffff" fill-opacity="0.9" stroke="#94a3b8" stroke-width="0.7"/>
+                <text x="-61" y="3" font-size="9.5" font-weight="600" fill="#0f172a">24日14時</text>
+              </g>
+
+              <!-- Map Header Badge -->
+              <rect x="15" y="15" width="180" height="28" rx="4" fill="#000000" fill-opacity="0.6"/>
+              <text x="25" y="34" font-size="14" font-family="monospace" font-weight="bold" fill="#ffffff">2026/10/21 14:00 LST</text>
+
+              <!-- CWA Logo stamp in corner -->
+              <g transform="translate(540, 450) scale(0.6)">
+                <circle cx="20" cy="20" r="24" fill="#0b518c"/>
+                <path d="M 5 20 Q 20 5, 35 20 T 20 35 Z" fill="#ffffff" opacity="0.8"/>
+              </g>
+            </svg>
+
+            <!-- Floating Top Right Tool Action -->
+            <button onclick="zoomMapModal()" class="absolute top-3 right-3 bg-neutral-900/75 hover:bg-neutral-900 text-white text-xs px-2.5 py-1.5 rounded flex items-center gap-1.5 transition">
+              <i class="fa-solid fa-up-right-and-down-left-from-center"></i> 查看圖檔
+            </button>
+          </div>
+
+          <!-- Sub-thumbnails Gallery / Switching View -->
+          <div class="grid grid-cols-3 gap-2 pt-1">
+            <button onclick="selectThumb(0)" class="thumb-btn border-2 border-cwa-primary rounded overflow-hidden relative group">
+              <div class="h-14 bg-gradient-to-tr from-blue-100 to-sky-200 flex items-center justify-center p-1">
+                <i class="fa-solid fa-map-location-dot text-cwa-primary text-xl"></i>
+              </div>
+              <span class="block text-[11px] py-0.5 bg-gray-50 text-gray-700 text-center font-medium">路徑潛勢預報</span>
+            </button>
+
+            <button onclick="selectThumb(1)" class="thumb-btn border border-gray-200 rounded overflow-hidden relative group hover:border-blue-400">
+              <div class="h-14 bg-gradient-to-tr from-amber-100 to-red-100 flex items-center justify-center p-1">
+                <i class="fa-solid fa-wind text-amber-600 text-xl"></i>
+              </div>
+              <span class="block text-[11px] py-0.5 bg-gray-50 text-gray-700 text-center">暴風圈侵襲機率</span>
+            </button>
+
+            <button onclick="selectThumb(2)" class="thumb-btn border border-gray-200 rounded overflow-hidden relative group hover:border-blue-400">
+              <div class="h-14 bg-gradient-to-tr from-emerald-100 to-teal-100 flex items-center justify-center p-1">
+                <i class="fa-solid fa-chart-column text-teal-600 text-xl"></i>
+              </div>
+              <span class="block text-[11px] py-0.5 bg-gray-50 text-gray-700 text-center">各時段總雨量預測</span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: 氣象資訊 -->
+    <section class="mt-8">
+      <div class="flex items-center space-x-2 border-b-2 border-cwa-primary pb-2 mb-4">
+        <h3 class="text-lg font-bold text-gray-800">氣象資訊</h3>
+        <span class="text-xs text-gray-400">即時監測雷達、衛星與降雨量</span>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <!-- Card 1: 衛星雲圖 -->
+        <div class="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition">
+          <div class="p-2 border-b border-gray-100 text-center font-medium text-xs text-gray-700 bg-gray-50">
+            衛星雲圖
+          </div>
+          <div class="relative h-44 bg-slate-900 overflow-hidden group cursor-pointer" onclick="openImageModal('衛星雲圖', '真實色可見光衛星雲圖 (Himawari-9)')">
+            <!-- Simulated Satellite Swirl Visual -->
+            <svg viewBox="0 0 200 200" class="w-full h-full object-cover">
+              <rect width="200" height="200" fill="#0d1b2a"/>
+              <circle cx="100" cy="100" r="85" fill="#1b263b" />
+              <!-- Cloud Bands -->
+              <path d="M 40 60 Q 90 20, 160 50 Q 180 120, 130 160 Q 60 170, 40 120 Z" fill="#e2e8f0" opacity="0.35" filter="blur(4px)"/>
+              <path d="M 70 80 Q 120 50, 150 90 Q 140 140, 100 130 Q 70 120, 70 80 Z" fill="#ffffff" opacity="0.75" filter="blur(2px)"/>
+              <!-- Swirl Core -->
+              <circle cx="115" cy="95" r="7" fill="#0d1b2a"/>
+              <path d="M 115 90 A 5 5 0 0 1 120 95" stroke="#ffffff" stroke-width="2"/>
+            </svg>
+            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs gap-1">
+              <i class="fa-solid fa-magnifying-glass-plus"></i> 放大觀看
+            </div>
+            <span class="absolute bottom-1 right-1 bg-black/70 text-[9px] text-white px-1.5 py-0.5 rounded">14:00 觀測</span>
+          </div>
+        </div>
+
+        <!-- Card 2: 雷達回波圖 -->
+        <div class="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition">
+          <div class="p-2 border-b border-gray-100 text-center font-medium text-xs text-gray-700 bg-gray-50">
+            雷達回波圖
+          </div>
+          <div class="relative h-44 bg-slate-50 overflow-hidden group cursor-pointer" onclick="openImageModal('雷達回波圖', '全台整合雷達回波回傳資料 (無地形)')">
+            <svg viewBox="0 0 200 200" class="w-full h-full">
+              <rect width="200" height="200" fill="#f8fafc"/>
+              <!-- Taiwan simplified contour -->
+              <path d="M 95 60 C 105 50, 115 70, 115 110 C 115 140, 105 160, 95 155 C 85 145, 85 100, 95 60 Z" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+              <!-- Echo Clouds -->
+              <ellipse cx="140" cy="80" rx="25" ry="15" fill="#22c55e" opacity="0.6"/>
+              <ellipse cx="138" cy="82" rx="15" ry="9" fill="#eab308" opacity="0.8"/>
+              <circle cx="137" cy="81" r="5" fill="#ef4444" opacity="0.85"/>
+              <ellipse cx="100" cy="140" rx="10" ry="18" fill="#3b82f6" opacity="0.5"/>
+            </svg>
+            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs gap-1">
+              <i class="fa-solid fa-magnifying-glass-plus"></i> 放大觀看
+            </div>
+            <span class="absolute bottom-1 right-1 bg-black/70 text-[9px] text-white px-1.5 py-0.5 rounded">14:10 觀測</span>
+          </div>
+        </div>
+
+        <!-- Card 3: 雨量累積圖 -->
+        <div class="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition">
+          <div class="p-2 border-b border-gray-100 text-center font-medium text-xs text-gray-700 bg-gray-50">
+            雨量累積圖
+          </div>
+          <div class="relative h-44 bg-slate-50 overflow-hidden group cursor-pointer" onclick="openImageModal('雨量累積圖', '本日 00:00 至目前自動雨量站累積統計')">
+            <svg viewBox="0 0 200 200" class="w-full h-full">
+              <rect width="200" height="200" fill="#f8fafc"/>
+              <path d="M 95 60 C 105 50, 115 70, 115 110 C 115 140, 105 160, 95 155 C 85 145, 85 100, 95 60 Z" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+              <!-- Rain color patches -->
+              <path d="M 98 75 Q 110 85, 105 100 T 95 90 Z" fill="#38bdf8" opacity="0.8"/>
+              <path d="M 100 80 Q 106 88, 102 96 Z" fill="#f97316" opacity="0.9"/>
+              <!-- Legend bar -->
+              <rect x="180" y="40" width="8" height="120" rx="2" fill="url(#rainLegend)"/>
+              <defs>
+                <linearGradient id="rainLegend" x1="0" y1="1" x2="0" y2="0">
+                  <stop offset="0%" stop-color="#3b82f6"/>
+                  <stop offset="35%" stop-color="#22c55e"/>
+                  <stop offset="70%" stop-color="#eab308"/>
+                  <stop offset="100%" stop-color="#ef4444"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs gap-1">
+              <i class="fa-solid fa-magnifying-glass-plus"></i> 放大觀看
+            </div>
+            <span class="absolute bottom-1 right-1 bg-black/70 text-[9px] text-white px-1.5 py-0.5 rounded">今日累積</span>
+          </div>
+        </div>
+
+        <!-- Card 4: 雨量日累積鄉鎮分布圖 -->
+        <div class="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition">
+          <div class="p-2 border-b border-gray-100 text-center font-medium text-xs text-gray-700 bg-gray-50">
+            雨量日累積鄉鎮分布圖
+          </div>
+          <div class="relative h-44 bg-slate-50 overflow-hidden group cursor-pointer" onclick="openImageModal('雨量日累積鄉鎮分布圖', '鄉鎮層級細分雨量分級警示圖')">
+            <svg viewBox="0 0 200 200" class="w-full h-full">
+              <rect width="200" height="200" fill="#f8fafc"/>
+              <path d="M 95 60 C 105 50, 115 70, 115 110 C 115 140, 105 160, 95 155 C 85 145, 85 100, 95 60 Z" fill="#e2e8f0" stroke="#64748b" stroke-width="0.8"/>
+              <!-- District segments -->
+              <circle cx="102" cy="78" r="4" fill="#3b82f6"/>
+              <circle cx="106" cy="88" r="5" fill="#f97316"/>
+              <circle cx="98" cy="110" r="3" fill="#22c55e"/>
+              <circle cx="95" cy="135" r="4" fill="#60a5fa"/>
+              <rect x="15" y="20" width="40" height="25" fill="#ffffff" stroke="#e2e8f0" rx="2"/>
+              <text x="20" y="32" font-size="7" fill="#64748b">澎湖金馬</text>
+            </svg>
+            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs gap-1">
+              <i class="fa-solid fa-magnifying-glass-plus"></i> 放大觀看
+            </div>
+            <span class="absolute bottom-1 right-1 bg-black/70 text-[9px] text-white px-1.5 py-0.5 rounded">鄉鎮網格</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: 海象資訊 -->
+    <section class="mt-8">
+      <div class="flex items-center space-x-2 border-b-2 border-teal-600 pb-2 mb-4">
+        <h3 class="text-lg font-bold text-gray-800">海象資訊</h3>
+        <span class="text-xs text-gray-400">海水水溫、波高趨勢與漁業風浪預報</span>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-3.5">
+        <!-- Marine 1: 海水表面溫度 -->
+        <div class="bg-white rounded border border-gray-200 overflow-hidden shadow-sm hover:shadow transition">
+          <div class="p-1.5 text-center text-xs font-medium text-gray-700 bg-gray-50 border-b border-gray-100">海水表面溫度</div>
+          <div class="h-36 bg-orange-100 flex items-center justify-center relative cursor-pointer group" onclick="openImageModal('海水表面溫度', '西太平洋海域水溫分佈圖')">
+            <svg viewBox="0 0 100 100" class="w-full h-full">
+              <rect width="100" height="100" fill="#f97316"/>
+              <path d="M 0 40 Q 50 20, 100 50 L 100 0 L 0 0 Z" fill="#eab308"/>
+              <path d="M 0 20 Q 50 10, 100 25 L 100 0 L 0 0 Z" fill="#3b82f6"/>
+              <text x="30" y="80" fill="#ffffff" font-size="10" font-weight="bold">28°C ~ 30°C</text>
+            </svg>
+            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-[11px]">查看</div>
+          </div>
+        </div>
+
+        <!-- Marine 2: 海洋態趨勢 -->
+        <div class="bg-white rounded border border-gray-200 overflow-hidden shadow-sm hover:shadow transition">
+          <div class="p-1.5 text-center text-xs font-medium text-gray-700 bg-gray-50 border-b border-gray-100">海洋態趨勢</div>
+          <div class="h-36 bg-emerald-100 flex items-center justify-center relative cursor-pointer group" onclick="openImageModal('海洋態趨勢', '黑潮洋流與周邊海流流向監測')">
+            <svg viewBox="0 0 100 100" class="w-full h-full">
+              <rect width="100" height="100" fill="#047857"/>
+              <path d="M 20 90 Q 50 60, 60 20" stroke="#a7f3d0" stroke-width="4" fill="none" stroke-dasharray="3,2"/>
+              <path d="M 35 95 Q 65 65, 75 25" stroke="#ecfdf5" stroke-width="3" fill="none"/>
+              <text x="15" y="85" fill="#ffffff" font-size="9">黑潮主流軸</text>
+            </svg>
+            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-[11px]">查看</div>
+          </div>
+        </div>
+
+        <!-- Marine 3: 24小時浪高預報圖 -->
+        <div class="bg-white rounded border border-gray-200 overflow-hidden shadow-sm hover:shadow transition">
+          <div class="p-1.5 text-center text-xs font-medium text-gray-700 bg-gray-50 border-b border-gray-100">24小時浪高預報圖</div>
+          <div class="h-36 bg-purple-100 flex items-center justify-center relative cursor-pointer group" onclick="openImageModal('24小時浪高預報圖', '數值模式預測 24 小時後有效波高分佈')">
+            <svg viewBox="0 0 100 100" class="w-full h-full">
+              <rect width="100" height="100" fill="#fdf4ff"/>
+              <circle cx="65" cy="50" r="30" fill="none" stroke="#d946ef" stroke-width="2.5"/>
+              <circle cx="65" cy="50" r="18" fill="none" stroke="#a21caf" stroke-width="2"/>
+              <circle cx="65" cy="50" r="8" fill="#701a75"/>
+              <text x="50" y="53" fill="#ffffff" font-size="7">浪高&gt;6m</text>
+            </svg>
+            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-[11px]">查看</div>
+          </div>
+        </div>
+
+        <!-- Marine 4: 波浪/潮位即時 -->
+        <div class="bg-white rounded border border-gray-200 overflow-hidden shadow-sm hover:shadow transition">
+          <div class="p-1.5 text-center text-xs font-medium text-gray-700 bg-gray-50 border-b border-gray-100">波浪/潮位即時</div>
+          <div class="h-36 bg-sky-100 flex items-center justify-center relative cursor-pointer group" onclick="openImageModal('波浪/潮位即時', '沿海各浮標站現況測值')">
+            <svg viewBox="0 0 100 100" class="w-full h-full">
+              <rect width="100" height="100" fill="#f0f9ff"/>
+              <path d="M 45 30 C 50 25, 55 35, 55 60 C 55 75, 50 85, 45 80 Z" fill="#bae6fd" stroke="#0284c7" stroke-width="1"/>
+              <circle cx="58" cy="40" r="3" fill="#dc2626"/>
+              <text x="63" y="42" font-size="6" fill="#dc2626">富貴角 3.2m</text>
+              <circle cx="58" cy="70" r="3" fill="#ea580c"/>
+              <text x="63" y="72" font-size="6" fill="#ea580c">成功 2.1m</text>
+            </svg>
+            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-[11px]">查看</div>
+          </div>
+        </div>
+
+        <!-- Marine 5: 漁業預報圖 -->
+        <div class="bg-white rounded border border-gray-200 overflow-hidden shadow-sm hover:shadow transition col-span-2 sm:col-span-1">
+          <div class="p-1.5 text-center text-xs font-medium text-gray-700 bg-gray-50 border-b border-gray-100">漁業預報圖</div>
+          <div class="h-36 bg-emerald-50 flex items-center justify-center relative cursor-pointer group" onclick="openImageModal('漁業預報圖', '台灣近海及遠海漁業氣象預報')">
+            <svg viewBox="0 0 100 100" class="w-full h-full">
+              <rect width="100" height="100" fill="#f0fdf4"/>
+              <path d="M 45 30 C 50 25, 55 35, 55 60 C 55 75, 50 85, 45 80 Z" fill="#dcfce7" stroke="#16a34a" stroke-width="1"/>
+              <text x="15" y="30" font-size="6" fill="#15803d">北部海面: 7-8級</text>
+              <text x="15" y="55" font-size="6" fill="#15803d">海峽北部: 8-9級</text>
+              <text x="15" y="85" font-size="6" fill="#15803d">巴士海峽: 6-7級</text>
+            </svg>
+            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-[11px]">查看</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: 氣象平台精選 -->
+    <section class="mt-8 pt-4">
+      <div class="text-center mb-6">
+        <h3 class="text-xl font-bold text-cwa-primary tracking-wide">氣象平台精選</h3>
+        <div class="w-16 h-1 bg-cwa-primary mx-auto mt-1 rounded-full"></div>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <!-- Portal Item 1 -->
+        <a href="#" class="flex items-center space-x-3.5 p-3.5 bg-white rounded-lg border border-gray-200 hover:border-cwa-primary hover:shadow-md transition group">
+          <div class="w-12 h-12 rounded-full bg-blue-50 text-cwa-primary group-hover:bg-cwa-primary group-hover:text-white flex items-center justify-center text-xl transition">
+            <i class="fa-solid fa-cloud-sun-rain"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-sm text-gray-800 group-hover:text-cwa-primary">天氣預報網</h4>
+            <p class="text-xs text-gray-500">全區逐 3 小時鄉鎮預報</p>
+          </div>
+        </a>
+
+        <!-- Portal Item 2 -->
+        <a href="#" class="flex items-center space-x-3.5 p-3.5 bg-white rounded-lg border border-gray-200 hover:border-cwa-primary hover:shadow-md transition group">
+          <div class="w-12 h-12 rounded-full bg-blue-50 text-cwa-primary group-hover:bg-cwa-primary group-hover:text-white flex items-center justify-center text-xl transition">
+            <i class="fa-solid fa-water"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-sm text-gray-800 group-hover:text-cwa-primary">海象資訊網頁平台</h4>
+            <p class="text-xs text-gray-500">潮汐預報與近岸遊憩安全</p>
+          </div>
+        </a>
+
+        <!-- Portal Item 3 -->
+        <a href="#" class="flex items-center space-x-3.5 p-3.5 bg-white rounded-lg border border-gray-200 hover:border-cwa-primary hover:shadow-md transition group">
+          <div class="w-12 h-12 rounded-full bg-blue-50 text-cwa-primary group-hover:bg-cwa-primary group-hover:text-white flex items-center justify-center text-xl transition">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-sm text-gray-800 group-hover:text-cwa-primary">劇烈天氣監測</h4>
+            <p class="text-xs text-gray-500">大雷雨即時訊息推播</p>
+          </div>
+        </a>
+
+        <!-- Portal Item 4 -->
+        <a href="#" class="flex items-center space-x-3.5 p-3.5 bg-white rounded-lg border border-gray-200 hover:border-cwa-primary hover:shadow-md transition group">
+          <div class="w-12 h-12 rounded-full bg-blue-50 text-cwa-primary group-hover:bg-cwa-primary group-hover:text-white flex items-center justify-center text-xl transition">
+            <i class="fa-solid fa-chart-line"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-sm text-gray-800 group-hover:text-cwa-primary">數值天氣預報產品</h4>
+            <p class="text-xs text-gray-500">全球與區域大氣系集預報</p>
+          </div>
+        </a>
+
+        <!-- Portal Item 5 -->
+        <a href="#" class="flex items-center space-x-3.5 p-3.5 bg-white rounded-lg border border-gray-200 hover:border-cwa-primary hover:shadow-md transition group">
+          <div class="w-12 h-12 rounded-full bg-blue-50 text-cwa-primary group-hover:bg-cwa-primary group-hover:text-white flex items-center justify-center text-xl transition">
+            <i class="fa-solid fa-map-location"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-sm text-gray-800 group-hover:text-cwa-primary">颱風消息GIS版</h4>
+            <p class="text-xs text-gray-500">多圖層颱風定位圖層疊加</p>
+          </div>
+        </a>
+
+        <!-- Portal Item 6 -->
+        <a href="#" class="flex items-center space-x-3.5 p-3.5 bg-white rounded-lg border border-gray-200 hover:border-cwa-primary hover:shadow-md transition group">
+          <div class="w-12 h-12 rounded-full bg-blue-50 text-cwa-primary group-hover:bg-cwa-primary group-hover:text-white flex items-center justify-center text-xl transition">
+            <i class="fa-solid fa-satellite-dish"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-sm text-gray-800 group-hover:text-cwa-primary">氣象雷達空間查詢系統</h4>
+            <p class="text-xs text-gray-500">全台灣都卜勒雷達回波檢視</p>
+          </div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-gray-300 mt-12 text-gray-600 text-[11px] py-6">
+    <div class="max-w-[1240px] mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="space-y-1.5 text-center md:text-left leading-relaxed">
+        <div class="flex flex-wrap justify-center md:justify-start gap-x-3 gap-y-1 text-gray-500 font-medium">
+          <a href="#" class="hover:underline">交通資訊</a>
+          <span>|</span>
+          <a href="#" class="hover:underline">常見問題</a>
+          <span>|</span>
+          <a href="#" class="hover:underline">業務聯絡</a>
+          <span>|</span>
+          <a href="#" class="hover:underline">RSS服務</a>
+          <span>|</span>
+          <a href="#" class="hover:underline">意見信箱</a>
+          <span>|</span>
+          <a href="#" class="hover:underline">氣候法規</a>
+          <span>|</span>
+          <a href="#" class="hover:underline">開放資料專區</a>
+          <span>|</span>
+          <a href="#" class="hover:underline">資訊安全政策</a>
+          <span>|</span>
+          <a href="#" class="hover:underline">隱私權保護政策</a>
+          <span>|</span>
+          <a href="#" class="hover:underline">政府資訊公開專區</a>
+        </div>
+        <p>服務時間：星期一至星期五 08:30~17:30 | 100006 台北市中正區公園路64號 | 總機：(02)2349-1000(代表號) 氣象查詢專線：(02)2349-1234 地震查詢專線：(02)2349-1168</p>
+        <p>資料申購服務時間：08:30至17:00 | 資料申購服務專線：(02)2349-1102</p>
+        <p class="text-gray-400">本網站宣告中華民國交通部中央氣象署版權所有，未經授權請勿轉載。建議使用瀏覽器最新版本以獲得最佳瀏覽體驗。</p>
+      </div>
+
+      <!-- Accessibility Badge Icon -->
+      <div class="flex items-center space-x-3 flex-shrink-0">
+        <div class="border border-green-600 rounded p-1 text-center bg-green-50 text-green-800 text-[10px] font-bold">
+          <i class="fa-solid fa-universal-access text-base block mb-0.5"></i>
+          無障礙標章 2.1<br>A+等級認證
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div id="imageModal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg max-w-3xl w-full overflow-hidden shadow-2xl relative">
+      <div class="flex items-center justify-between p-3 border-b border-gray-200 bg-gray-50">
+        <h4 id="modalTitle" class="font-bold text-gray-800 text-sm">圖資檢視</h4>
+        <button onclick="closeModal()" class="text-gray-500 hover:text-gray-800 p-1 rounded hover:bg-gray-200 transition">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+      <div class="p-4 flex flex-col items-center">
+        <div id="modalContent" class="w-full h-80 bg-slate-900 rounded flex items-center justify-center text-white text-base">
+          <!-- Dynamic diagram or enlarged map loads here -->
+        </div>
+        <p id="modalDesc" class="mt-3 text-xs text-gray-600 text-center"></p>
+      </div>
+      <div class="p-3 bg-gray-50 border-t border-gray-200 flex justify-end">
+        <button onclick="closeModal()" class="px-4 py-1.5 bg-gray-600 hover:bg-gray-700 text-white rounded text-xs">
+          關閉
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Tab switching logic
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabButtons.forEach(b => {
+          b.classList.remove('active-tab');
+          b.classList.add('bg-gray-100', 'text-gray-700');
+        });
+        btn.classList.add('active-tab');
+        btn.classList.remove('bg-gray-100', 'text-gray-700');
+      });
+    });
+
+    // Typhoon Path Animation Step Logic
+    let isPlaying = false;
+    let timer = null;
+    let currentStep = 0;
+    const timeSteps = [
+      "2026/10/20 02:00 LST",
+      "2026/10/20 14:00 LST",
+      "2026/10/21 02:00 LST",
+      "2026/10/21 14:00 LST",
+      "2026/10/22 02:00 LST (預測)",
+      "2026/10/22 14:00 LST (預測)",
+      "2026/10/23 02:00 LST (預測)"
+    ];
+
+    function updateStepDisplay() {
+      document.getElementById('timeDisplay').innerText = timeSteps[currentStep];
+    }
+
+    function changeStep(delta) {
+      currentStep = (currentStep + delta + timeSteps.length) % timeSteps.length;
+      updateStepDisplay();
+    }
+
+    function togglePlay() {
+      isPlaying = !isPlaying;
+      const playIcon = document.getElementById('playIcon');
+      const playBtnText = document.querySelector('#playBtn span');
+
+      if (isPlaying) {
+        playIcon.classList.replace('fa-play', 'fa-pause');
+        playBtnText.innerText = "暫停";
+        timer = setInterval(() => {
+          currentStep = (currentStep + 1) % timeSteps.length;
+          updateStepDisplay();
+          if (currentStep === timeSteps.length - 1 && !document.getElementById('autoLoopCheck').checked) {
+            togglePlay();
+          }
+        }, 1200);
+      } else {
+        playIcon.classList.replace('fa-pause', 'fa-play');
+        playBtnText.innerText = "播放";
+        clearInterval(timer);
+      }
+    }
+
+    // Thumb Selection Highlighting
+    function selectThumb(index) {
+      const thumbs = document.querySelectorAll('.thumb-btn');
+      thumbs.forEach((th, i) => {
+        if (i === index) {
+          th.classList.add('border-cwa-primary', 'border-2');
+          th.classList.remove('border-gray-200');
+        } else {
+          th.classList.remove('border-cwa-primary', 'border-2');
+          th.classList.add('border-gray-200');
+        }
+      });
+    }
+
+    // Modal Operations
+    function openImageModal(title, description) {
+      document.getElementById('modalTitle').innerText = title;
+      document.getElementById('modalDesc').innerText = description;
+      
+      const modalBox = document.getElementById('modalContent');
+      modalBox.innerHTML = `
+        <div class="text-center p-6 space-y-3">
+          <i class="fa-solid fa-satellite-dish text-5xl text-blue-400 animate-pulse"></i>
+          <h3 class="text-lg font-bold text-white">${title} 高解析圖資</h3>
+          <p class="text-xs text-slate-300 max-w-md mx-auto">${description}。中央氣象署最新全解析度圖資已同步連線。</p>
+        </div>
+      `;
+      document.getElementById('imageModal').classList.remove('hidden');
+    }
+
+    function zoomMapModal() {
+      openImageModal('2026/10/21 14:00 LST 颱風路徑潛勢高解析預報圖', '包含 70% 颱風中心可能通過之暴風機率圓圈圖');
+    }
+
+    function closeModal() {
+      document.getElementById('imageModal').classList.add('hidden');
+    }
+
+    function toggleFullscreen() {
+      const elem = document.getElementById('mapContainer');
+      if (!document.fullscreenElement) {
+        elem.requestFullscreen().catch(err => {
+          console.warn(`全螢幕請求失敗: ${err.message}`);
+        });
+      } else {
+        document.exitFullscreen();
+      }
+    }
+
+    function sharePage() {
+      const dummyInput = document.createElement("input");
+      document.body.appendChild(dummyInput);
+      dummyInput.value = window.location.href;
+      dummyInput.select();
+      document.execCommand("copy");
+      document.body.removeChild(dummyInput);
+      
+      const btn = document.getElementById('btnShare');
+      const originalHTML = btn.innerHTML;
+      btn.innerHTML = `<i class="fa-solid fa-check text-green-600"></i> 已複製網址`;
+      setTimeout(() => {
+        btn.innerHTML = originalHTML;
+      }, 2000);
+    }
+  </script>
+</body>
+</html>
